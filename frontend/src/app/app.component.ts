@@ -27,14 +27,20 @@ import { TagRecommendationComponent } from './features/tags/components/tag-recom
   ]
 })
 export class AppComponent {
-  title = 'GitHub Issue Search';
   searchResults: Issue[] = [];
   isLoading = false;
   errorMessage = '';
 
+  lang: 'zh' | 'en' = 'zh';
+
   constructor(private searchService: SearchService) {}
 
+  setLang(lang: 'zh' | 'en') {
+    this.lang = lang;
+  }
+
   onSearch(searchParams: any): void {
+    console.log('searchParams', searchParams);
     this.isLoading = true;
     this.errorMessage = '';
     
@@ -45,7 +51,7 @@ export class AppComponent {
           this.isLoading = false;
         },
         error: (error) => {
-          this.errorMessage = 'An error occurred while searching. Please try again.';
+          this.errorMessage = this.lang === 'zh' ? '搜尋時發生錯誤，請稍後再試。' : 'An error occurred while searching. Please try again.';
           this.isLoading = false;
           console.error('Search error:', error);
         }

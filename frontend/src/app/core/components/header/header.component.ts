@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,5 +15,11 @@ import { MatIconModule } from '@angular/material/icon';
   ]
 })
 export class HeaderComponent {
-  title = 'GitHub Issue Search';
+  title = 'Issue Radar';
+  @Input() lang: 'zh' | 'en' = 'zh';
+  @Output() langChange = new EventEmitter<'zh' | 'en'>();
+
+  setLang(lang: 'zh' | 'en') {
+    this.langChange.emit(lang);
+  }
 }

@@ -21,6 +21,12 @@
 
     <div class="recommendations-container" *ngIf="descriptionForm.get('description')?.value">
       <h3 class="recommendations-title">AI Recommended Labels</h3>
+
+      <div *ngIf="!isLoading">
+        <div><strong>Query：</strong>{{ lastQuery || '-' }}</div>
+        <div><strong>Labels：</strong>{{ recommendedTags.length ? recommendedTags.join(', ') : '-' }}</div>
+        <div><strong>Language：</strong>{{ lastLanguage || '-' }}</div>
+      </div>
       
       <div class="loading-container" *ngIf="isLoading">
         <mat-spinner diameter="24"></mat-spinner>

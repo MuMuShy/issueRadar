@@ -1,0 +1,57 @@
+<div class="app-container">
+  <app-header [lang]="lang" (langChange)="setLang($event)"></app-header>
+  
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>{{ lang === 'zh' ? 'IssueRadar - AI GitHub Issue 搜尋' : 'IssueRadar - AI GitHub Issue Search' }}</h1>
+      <p>
+        {{ lang === 'zh' ? '用自然語言搜尋 GitHub issue，快速找到你能貢獻的開源專案！' : 'Search GitHub issues with natural language and quickly find open source projects you can contribute to!' }}
+      </p>
+      <ol class="hero-steps">
+        <li>{{ lang === 'zh' ? '輸入描述（用你習慣的語言）' : 'Enter your description (in your language)' }}</li>
+        <li>{{ lang === 'zh' ? 'AI 解析需求' : 'AI understands your needs' }}</li>
+        <li>{{ lang === 'zh' ? '一鍵搜尋、前往貢獻' : 'One-click search & contribute' }}</li>
+      </ol>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="main-content">
+      <!-- <div class="search-section slide-in">
+        <app-search-form (search)="onSearch($event)"></app-search-form>
+      </div> -->
+
+      <div class="recommendation-section fade-in">
+        <app-tag-recommendation (searchParamsGenerated)="onSearch($event)"></app-tag-recommendation>
+      </div>
+
+      <div class="results-section">
+        <ng-container *ngIf="isLoading">
+          <div class="loading-container">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>{{ lang === 'zh' ? '搜尋中...' : 'Searching GitHub issues...' }}</p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="!isLoading && errorMessage">
+          <div class="error-container">
+            <mat-icon color="warn">error</mat-icon>
+            <p>{{ errorMessage }}</p>
+          </div>
+        </ng-container>
+
+        <app-search-results 
+          *ngIf="!isLoading && !errorMessage && searchResults.length > 0" 
+          [issues]="searchResults">
+        </app-search-results>
+
+        <div class="empty-state" *ngIf="!isLoading && !errorMessage && searchResults.length === 0">
+          <mat-icon>search</mat-icon>
+          <p>{{ lang === 'zh' ? '目前沒有搜尋結果，請在上方輸入描述或關鍵字。' : 'No results to display. Try searching for GitHub issues above.' }}</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

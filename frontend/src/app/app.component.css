@@ -1,0 +1,160 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.search-section, 
+.recommendation-section, 
+.results-section {
+  margin-bottom: 24px;
+}
+
+.loading-container,
+.error-container,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loading-container mat-spinner,
+.error-container mat-icon,
+.empty-state mat-icon {
+  margin-bottom: 16px;
+}
+
+.error-container mat-icon,
+.empty-state mat-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+}
+
+.empty-state mat-icon {
+  color: #673ab7;
+  opacity: 0.5;
+}
+
+.error-container {
+  color: var(--warn-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px 12px;
+  }
+  
+  .loading-container,
+  .error-container,
+  .empty-state {
+    padding: 32px 16px;
+  }
+}
+
+/* 針對 Material 下拉選單的 overlay */
+.mat-select-panel,
+.mat-autocomplete-panel,
+.mat-chip-listbox {
+  background: #fff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  color: #222 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* 針對 overlay 容器加強（有時候 class 會變） */
+.cdk-overlay-pane .mat-select-panel,
+.cdk-overlay-pane .mat-autocomplete-panel {
+  background: #fff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  color: #222 !important;
+}
+
+.hero-section {
+  background: linear-gradient(90deg, #e3f2fd 0%, #fce4ec 100%);
+  padding: 48px 0 32px 0;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.hero-content {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  margin-bottom: 8px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.hero-content h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #222;
+}
+
+.hero-content p {
+  font-size: 1.15rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.lang-switch {
+  margin: 8px 0 8px 0;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.hero-steps {
+  margin: 16px 0 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  color: #1976d2;
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+.hero-steps li {
+  background: #fff;
+  border-radius: 20px;
+  padding: 8px 18px;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.08);
+}
+
+@media (max-width: 600px) {
+  .hero-content {
+    max-width: 98vw;
+    padding: 0 4vw;
+  }
+  .hero-steps {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
