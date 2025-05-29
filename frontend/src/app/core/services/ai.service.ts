@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AIService {
-  // 請根據實際後端網址調整
-  private apiUrl = 'https://issueradar.onrender.com/api/nl_search/';
+  private apiUrl = environment.apiUrl + '/api/nl_search/';
 
   constructor(private http: HttpClient) {}
 
