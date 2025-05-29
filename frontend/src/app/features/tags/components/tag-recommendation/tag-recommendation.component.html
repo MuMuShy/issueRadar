@@ -6,16 +6,21 @@
   </mat-card-header>
 
   <mat-card-content>
-    <form [formGroup]="descriptionForm" class="description-form">
-      <mat-form-field appearance="outline" class="full-width">
+    <form [formGroup]="descriptionForm" class="description-form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width" style="position: relative;">
         <mat-label>Describe your issue or feature</mat-label>
         <textarea 
           matInput 
           formControlName="description" 
           rows="3"
-          placeholder="E.g., 'Add dark mode support to the application with a toggle in the navbar'">
-        </textarea>
-        <mat-hint>Describe what you're working on to get relevant label suggestions</mat-hint>
+          placeholder="E.g., 'Add dark mode support to the application with a toggle in the navbar'"
+          (keydown.enter)="onEnter($event)"
+        ></textarea>
+        <button mat-fab color="primary" type="submit"
+          [disabled]="isLoading || !descriptionForm.get('description')?.value || descriptionForm.get('description')?.value.length <= 10"
+          class="enter-btn">
+          <mat-icon>send</mat-icon>
+        </button>
       </mat-form-field>
     </form>
 

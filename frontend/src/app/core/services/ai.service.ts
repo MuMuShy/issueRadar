@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AIService {
   // 請根據實際後端網址調整
-  private apiUrl = 'http://localhost:8000/api/nl_search';
+  private apiUrl = 'https://issueradar.onrender.com/api/nl_search/';
 
   constructor(private http: HttpClient) {}
 

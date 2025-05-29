@@ -41,47 +41,52 @@ export class TagRecommendationComponent implements OnInit {
   
   ngOnInit(): void {
     this.createForm();
-    
-    this.descriptionForm.get('description')?.valueChanges.pipe(
-      debounceTime(1000),
-      distinctUntilChanged(),
-      switchMap(description => {
-        if (description && description.length > 10) {
-          this.isLoading = true;
-          return this.aiService.searchIssuesByNL(description);
-        } else {
-          this.recommendedTags = [];
-          this.lastQuery = '';
-          this.lastLanguage = '';
-          return [];
-        }
-      })
-    ).subscribe({
-      next: (res) => {
-        this.isLoading = false;
-        if (res && res.query) {
-          this.recommendedTags = Array.isArray(res.labels) ? res.labels : (res.labels ? [res.labels] : []);
-          this.lastQuery = res.query;
-          this.lastLanguage = res.language;
-          this.searchParamsGenerated.emit({query: res.query, labels: this.recommendedTags, language: res.language});
-        } else {
+  }
+  
+  onSubmit(): void {
+    const description = this.descriptionForm.get('description')?.value;
+    if (description && description.length > 10) {
+      this.isLoading = true;
+      this.aiService.searchIssuesByNL(description).subscribe({
+        next: (res) => {
+          this.isLoading = false;
+          if (res && res.query) {
+            this.recommendedTags = Array.isArray(res.labels) ? res.labels : (res.labels ? [res.labels] : []);
+            this.lastQuery = res.query;
+            this.lastLanguage = res.language;
+            this.searchParamsGenerated.emit({query: res.query, labels: this.recommendedTags, language: res.language});
+          } else {
+            this.recommendedTags = [];
+            this.lastQuery = '';
+            this.lastLanguage = '';
+          }
+        },
+        error: (err) => {
+          this.isLoading = false;
           this.recommendedTags = [];
           this.lastQuery = '';
           this.lastLanguage = '';
         }
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.recommendedTags = [];
-        this.lastQuery = '';
-        this.lastLanguage = '';
-      }
-    });
+      });
+    } else {
+      this.recommendedTags = [];
+      this.lastQuery = '';
+      this.lastLanguage = '';
+    }
   }
   
   createForm(): void {
     this.descriptionForm = this.fb.group({
       description: ['']
     });
+  }
+
+  onEnter(event: any): void {
+    const keyboardEvent = event as KeyboardEvent;
+    if (!(keyboardEvent.ctrlKey || keyboardEvent.metaKey)) {
+      keyboardEvent.preventDefault();
+      this.onSubmit();
+    }
+    // ctrl+enter 或 cmd+enter 則不送出，保留換行
   }
 }
