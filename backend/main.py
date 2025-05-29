@@ -15,10 +15,13 @@ client = OpenAI(
 
 app = FastAPI()
 
+# 讀取前端網域，預設允許 localhost 及正式網域
+frontend_origins = os.environ.get("FRONTEND_ORIGIN", "http://localhost:4200").split(",")
+
 # CORS 設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 開發階段允許所有，部署記得限制
+    allow_origins=frontend_origins,  # 從 .env 讀取
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
