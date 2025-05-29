@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class HeaderComponent {
   title = 'Issue Radar';
-  @Input() lang: 'zh' | 'en' = 'zh';
+  @Input() lang: 'zh' | 'en' = 'en';
   @Output() langChange = new EventEmitter<'zh' | 'en'>();
 
   setLang(lang: 'zh' | 'en') {

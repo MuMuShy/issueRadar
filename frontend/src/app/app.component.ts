@@ -31,7 +31,7 @@ export class AppComponent {
   isLoading = false;
   errorMessage = '';
 
-  lang: 'zh' | 'en' = 'zh';
+  lang: 'zh' | 'en' = 'en';
 
   constructor(private searchService: SearchService) {}
 
