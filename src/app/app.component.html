@@ -1,0 +1,43 @@
+<div class="app-container">
+  <app-header></app-header>
+  
+  <main class="container">
+    <div class="main-content">
+      <div class="search-section slide-in">
+        <app-search-form (search)="onSearch($event)"></app-search-form>
+      </div>
+
+      <div class="recommendation-section fade-in">
+        <app-tag-recommendation></app-tag-recommendation>
+      </div>
+
+      <div class="results-section">
+        <ng-container *ngIf="isLoading">
+          <div class="loading-container">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Searching GitHub issues...</p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="!isLoading && errorMessage">
+          <div class="error-container">
+            <mat-icon color="warn">error</mat-icon>
+            <p>{{ errorMessage }}</p>
+          </div>
+        </ng-container>
+
+        <app-search-results 
+          *ngIf="!isLoading && !errorMessage && searchResults.length > 0" 
+          [issues]="searchResults">
+        </app-search-results>
+
+        <div class="empty-state" *ngIf="!isLoading && !errorMessage && searchResults.length === 0">
+          <mat-icon>search</mat-icon>
+          <p>No results to display. Try searching for GitHub issues above.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,62 @@
+<mat-card appearance="outlined" class="issue-card" (click)="openIssue()">
+  <mat-card-header>
+    <div mat-card-avatar class="avatar">
+      <img [src]="issue.author.avatarUrl" alt="Avatar of {{ issue.author.login }}" *ngIf="issue.author.avatarUrl">
+      <mat-icon *ngIf="!issue.author.avatarUrl">person</mat-icon>
+    </div>
+    <mat-card-title class="card-title" [matTooltip]="issue.title">
+      {{ issue.title }}
+    </mat-card-title>
+    <mat-card-subtitle class="card-subtitle">
+      <a [href]="'https://github.com/' + issue.repository" target="_blank" 
+         class="repo-link" (click)="$event.stopPropagation()">
+        {{ issue.repository }}
+      </a>
+      <span class="issue-number">#{{ issue.number }}</span>
+    </mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <p class="description" [class.truncated]="!showFullDescription && issue.body && issue.body.length > 160">
+      {{ issueDescription }}
+      <span class="expand-link" *ngIf="issue.body && issue.body.length > 160" (click)="toggleDescription(); $event.stopPropagation()">
+        {{ showFullDescription ? 'Show less' : 'Read more' }}
+      </span>
+    </p>
+    
+    <div class="issue-metadata">
+      <div class="issue-labels">
+        <ng-container *ngIf="issue.labels && issue.labels.length > 0">
+          <span class="label-heading">Labels:</span>
+          <div class="label-list">
+            <span 
+              *ngFor="let label of issue.labels.slice(0, 3)" 
+              class="issue-label"
+              [style.background-color]="'#' + label.color + '30'"
+              [style.color]="'#' + label.color"
+              [matTooltip]="label.name">
+              {{ label.name }}
+            </span>
+            <span *ngIf="issue.labels.length > 3" class="more-labels">
+              +{{ issue.labels.length - 3 }} more
+            </span>
+          </div>
+        </ng-container>
+        <span *ngIf="!issue.labels || issue.labels.length === 0" class="no-labels">
+          No labels
+        </span>
+      </div>
+      
+      <div class="timestamp">
+        Updated {{ issue.updatedAt | date:'medium' }}
+      </div>
+    </div>
+  </mat-card-content>
+  
+  <mat-card-actions>
+    <button mat-button (click)="openIssue(); $event.stopPropagation()">
+      <mat-icon>open_in_new</mat-icon>
+      Open Issue
+    </button>
+  </mat-card-actions>
+</mat-card>

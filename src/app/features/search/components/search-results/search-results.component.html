@@ -1,0 +1,26 @@
+<div class="search-results fade-in">
+  <h2 class="results-title">Search Results ({{ issues.length }})</h2>
+
+  <div *ngIf="issues.length > 0" class="results-list">
+    <app-issue-card 
+      *ngFor="let issue of displayedIssues" 
+      [issue]="issue"
+      class="slide-in">
+    </app-issue-card>
+
+    <mat-paginator
+      *ngIf="issues.length > pageSize"
+      [length]="issues.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="pageIndex"
+      (page)="handlePageEvent($event)"
+      aria-label="Select page of issues">
+    </mat-paginator>
+  </div>
+
+  <div *ngIf="issues.length === 0" class="no-results">
+    <mat-icon>search_off</mat-icon>
+    <p>No issues found matching your search criteria.</p>
+  </div>
+</div>

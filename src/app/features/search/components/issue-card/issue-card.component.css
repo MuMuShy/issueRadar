@@ -1,0 +1,145 @@
+.issue-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.issue-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f1f1;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.card-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.repo-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.repo-link:hover {
+  text-decoration: underline;
+}
+
+.issue-number {
+  color: var(--text-medium);
+  font-size: 0.9rem;
+}
+
+.description {
+  margin: 12px 0;
+  color: var(--text-medium);
+  line-height: 1.5;
+}
+
+.description.truncated {
+  position: relative;
+}
+
+.expand-link {
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.expand-link:hover {
+  text-decoration: underline;
+}
+
+.issue-metadata {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.issue-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label-heading {
+  font-size: 0.85rem;
+  color: var(--text-medium);
+}
+
+.label-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.issue-label {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.more-labels {
+  font-size: 0.75rem;
+  color: var(--text-medium);
+}
+
+.no-labels {
+  font-size: 0.85rem;
+  color: var(--text-medium);
+  font-style: italic;
+}
+
+.timestamp {
+  font-size: 0.85rem;
+  color: var(--text-medium);
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0;
+}
+
+mat-card-actions button {
+  color: var(--primary-color);
+}
+
+@media (max-width: 599px) {
+  .issue-metadata {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

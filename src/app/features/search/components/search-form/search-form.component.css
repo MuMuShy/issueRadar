@@ -1,0 +1,44 @@
+.search-form-card {
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.filters {
+  flex-wrap: wrap;
+}
+
+.filters mat-form-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+mat-card-actions {
+  padding: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 599px) {
+  .form-row {
+    flex-direction: column;
+  }
+  
+  mat-card-actions {
+    flex-direction: column-reverse;
+  }
+  
+  mat-card-actions button {
+    width: 100%;
+  }
+}
