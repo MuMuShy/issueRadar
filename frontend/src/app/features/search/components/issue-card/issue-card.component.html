@@ -58,5 +58,32 @@
       <mat-icon>open_in_new</mat-icon>
       Open Issue
     </button>
+    <button mat-stroked-button color="primary" (click)="analyzeIssue($event)" [disabled]="analyzing" style="margin-left: 8px;">
+      <mat-icon>psychology</mat-icon>
+      {{ analyzing ? '分析中...' : 'AI 分析' }}
+    </button>
+    <button mat-stroked-button color="accent" (click)="forkRepo($event)" style="margin-left: 8px;">
+      <mat-icon>call_split</mat-icon>
+      Fork 並開始貢獻
+    </button>
   </mat-card-actions>
+  <div *ngIf="aiSuggestion || aiError" class="ai-suggestion" style="margin: 16px 16px 0 16px;">
+    <mat-card *ngIf="aiSuggestion" color="primary" style="background: #f5faff; padding: 18px 20px; border-radius: 10px; box-shadow: none;">
+      <b style="font-size: 1.1em;">AI 分析建議：</b>
+      <ng-container *ngIf="aiSuggestion && aiSuggestion.trim().length > 0; else noSuggestion">
+        <ul style="margin: 12px 0 0 0; padding-left: 18px; list-style: none;">
+          <li *ngFor="let line of aiSuggestionLines" style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+            <mat-icon style="font-size: 18px; color: #1976d2; margin-right: 6px; margin-top: 2px;">check_circle</mat-icon>
+            <span style="line-height: 1.8; font-size: 1em;">{{ line }}</span>
+          </li>
+        </ul>
+      </ng-container>
+      <ng-template #noSuggestion>
+        <div style="color: #888; margin-top: 10px;">AI 無法給出具體建議，請參考 issue 討論</div>
+      </ng-template>
+    </mat-card>
+    <mat-card *ngIf="aiError" color="warn" style="background: #fff5f5; padding: 12px;">
+      <b>{{ aiError }}</b>
+    </mat-card>
+  </div>
 </mat-card>
