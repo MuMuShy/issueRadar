@@ -1,89 +1,73 @@
-<mat-card appearance="outlined" class="issue-card" (click)="openIssue()">
-  <mat-card-header>
-    <div mat-card-avatar class="avatar">
-      <img [src]="issue.author.avatarUrl" alt="Avatar of {{ issue.author.login }}" *ngIf="issue.author.avatarUrl">
-      <mat-icon *ngIf="!issue.author.avatarUrl">person</mat-icon>
+<div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 cursor-pointer p-6 mb-6 border border-gray-100" (click)="openIssue()">
+  <div class="flex items-start gap-4">
+    <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+      <img *ngIf="issue.author.avatarUrl" [src]="issue.author.avatarUrl" [alt]="'Avatar of ' + issue.author.login" class="w-full h-full object-cover">
+      <span *ngIf="!issue.author.avatarUrl" class="text-gray-400 text-2xl">👤</span>
     </div>
-    <mat-card-title class="card-title" [matTooltip]="issue.title">
-      {{ issue.title }}
-    </mat-card-title>
-    <mat-card-subtitle class="card-subtitle">
-      <a [href]="'https://github.com/' + issue.repository" target="_blank" 
-         class="repo-link" (click)="$event.stopPropagation()">
-        {{ issue.repository }}
-      </a>
-      <span class="issue-number">#{{ issue.number }}</span>
-    </mat-card-subtitle>
-  </mat-card-header>
-  
-  <mat-card-content>
-    <p class="description" [class.truncated]="!showFullDescription && issue.body && issue.body.length > 160">
+    <div class="flex-1 min-w-0">
+      <div class="font-semibold text-lg text-gray-900 truncate" [title]="issue.title">
+        {{ issue.title }}
+      </div>
+      <div class="flex items-center gap-2 mt-1 text-sm text-gray-500">
+        <a [href]="'https://github.com/' + issue.repository" target="_blank" (click)="$event.stopPropagation()" class="hover:underline text-indigo-600 font-medium">{{ issue.repository }}</a>
+        <span class="text-gray-400">#{{ issue.number }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 text-gray-700 text-base leading-relaxed">
+    <span [class.line-clamp-2]="!showFullDescription && issue.body && issue.body.length > 160">
       {{ issueDescription }}
-      <span class="expand-link" *ngIf="issue.body && issue.body.length > 160" (click)="toggleDescription(); $event.stopPropagation()">
-        {{ showFullDescription ? 'Show less' : 'Read more' }}
-      </span>
-    </p>
-    
-    <div class="issue-metadata">
-      <div class="issue-labels">
+    </span>
+    <span *ngIf="issue.body && issue.body.length > 160" (click)="toggleDescription(); $event.stopPropagation()" class="ml-2 text-indigo-600 cursor-pointer font-medium hover:underline">
+      {{ showFullDescription ? 'Show less' : 'Read more' }}
+    </span>
+  </div>
+  <div class="flex flex-wrap justify-between items-start gap-4 mt-4">
+    <div class="flex flex-col gap-1">
+      <span class="text-xs text-gray-400">Labels:</span>
+      <div class="flex flex-wrap gap-2 mt-1">
         <ng-container *ngIf="issue.labels && issue.labels.length > 0">
-          <span class="label-heading">Labels:</span>
-          <div class="label-list">
-            <span 
-              *ngFor="let label of issue.labels.slice(0, 3)" 
-              class="issue-label"
-              [style.background-color]="'#' + label.color + '30'"
-              [style.color]="'#' + label.color"
-              [matTooltip]="label.name">
-              {{ label.name }}
-            </span>
-            <span *ngIf="issue.labels.length > 3" class="more-labels">
-              +{{ issue.labels.length - 3 }} more
-            </span>
-          </div>
+          <span *ngFor="let label of issue.labels.slice(0, 3)" class="px-2 py-0.5 rounded-full text-xs font-medium" [ngStyle]="{'background-color': '#' + label.color + '30', 'color': '#' + label.color}">
+            {{ label.name }}
+          </span>
+          <span *ngIf="issue.labels.length > 3" class="text-xs text-gray-400">+{{ issue.labels.length - 3 }} more</span>
         </ng-container>
-        <span *ngIf="!issue.labels || issue.labels.length === 0" class="no-labels">
-          No labels
-        </span>
-      </div>
-      
-      <div class="timestamp">
-        Updated {{ issue.updatedAt | date:'medium' }}
+        <span *ngIf="!issue.labels || issue.labels.length === 0" class="text-xs text-gray-300 italic">No labels</span>
       </div>
     </div>
-  </mat-card-content>
-  
-  <mat-card-actions>
-    <button mat-button (click)="openIssue(); $event.stopPropagation()">
-      <mat-icon>open_in_new</mat-icon>
+    <div class="text-xs text-gray-400 mt-2 sm:mt-0">Updated {{ issue.updatedAt | date:'medium' }}</div>
+  </div>
+  <div class="flex flex-wrap gap-2 mt-6">
+    <button (click)="openIssue(); $event.stopPropagation()" class="flex items-center gap-1 px-4 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition text-sm font-medium">
+      <span class="material-icons text-base">open_in_new</span>
       Open Issue
     </button>
-    <button mat-stroked-button color="primary" (click)="analyzeIssue($event)" [disabled]="analyzing" style="margin-left: 8px;">
-      <mat-icon>psychology</mat-icon>
+    <button (click)="analyzeIssue($event)" [disabled]="analyzing" class="flex items-center gap-1 px-4 py-1.5 rounded-lg border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition text-sm font-medium disabled:opacity-60 disabled:cursor-not-allowed">
+      <span class="material-icons text-base">psychology</span>
       {{ analyzing ? '分析中...' : 'AI 分析' }}
     </button>
-    <button mat-stroked-button color="accent" (click)="forkRepo($event)" style="margin-left: 8px;">
-      <mat-icon>call_split</mat-icon>
+    <button (click)="forkRepo($event)" class="flex items-center gap-1 px-4 py-1.5 rounded-lg border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 transition text-sm font-medium">
+      <span class="material-icons text-base">call_split</span>
       Fork 並開始貢獻
     </button>
-  </mat-card-actions>
-  <div *ngIf="aiSuggestion || aiError" class="ai-suggestion" style="margin: 16px 16px 0 16px;">
-    <mat-card *ngIf="aiSuggestion" color="primary" style="background: #f5faff; padding: 18px 20px; border-radius: 10px; box-shadow: none;">
-      <b style="font-size: 1.1em;">AI 分析建議：</b>
+  </div>
+  <div *ngIf="aiSuggestion || aiError" class="mt-6">
+    <div *ngIf="aiSuggestion" class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+      <div class="font-semibold text-blue-700 mb-2">AI 分析建議：</div>
       <ng-container *ngIf="aiSuggestion && aiSuggestion.trim().length > 0; else noSuggestion">
-        <ul style="margin: 12px 0 0 0; padding-left: 18px; list-style: none;">
-          <li *ngFor="let line of aiSuggestionLines" style="margin-bottom: 10px; display: flex; align-items: flex-start;">
-            <mat-icon style="font-size: 18px; color: #1976d2; margin-right: 6px; margin-top: 2px;">check_circle</mat-icon>
-            <span style="line-height: 1.8; font-size: 1em;">{{ line }}</span>
+        <ul class="space-y-2">
+          <li *ngFor="let line of aiSuggestionLines" class="flex items-start gap-2">
+            <span class="material-icons text-blue-400 text-base mt-0.5">check_circle</span>
+            <span class="leading-relaxed text-sm">{{ line }}</span>
           </li>
         </ul>
       </ng-container>
       <ng-template #noSuggestion>
-        <div style="color: #888; margin-top: 10px;">AI 無法給出具體建議，請參考 issue 討論</div>
+        <div class="text-gray-400 mt-2">AI 無法給出具體建議，請參考 issue 討論</div>
       </ng-template>
-    </mat-card>
-    <mat-card *ngIf="aiError" color="warn" style="background: #fff5f5; padding: 12px;">
-      <b>{{ aiError }}</b>
-    </mat-card>
+    </div>
+    <div *ngIf="aiError" class="bg-red-50 border border-red-100 rounded-lg p-4 mt-2">
+      <span class="text-red-600 font-semibold">{{ aiError }}</span>
+    </div>
   </div>
-</mat-card>
+</div>

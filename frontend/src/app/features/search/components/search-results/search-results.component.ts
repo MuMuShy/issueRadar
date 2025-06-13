@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { IssueCardComponent } from '../issue-card/issue-card.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-results',
@@ -13,6 +14,7 @@ import { IssueCardComponent } from '../issue-card/issue-card.component';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatPaginatorModule,
     MatIconModule,
     IssueCardComponent
@@ -40,8 +42,12 @@ export class SearchResultsComponent implements OnChanges {
     this.updateDisplayedIssues();
   }
   
-  private updateDisplayedIssues(): void {
+  public updateDisplayedIssues(): void {
     const start = this.pageIndex * this.pageSize;
     this.displayedIssues = this.issues.slice(start, start + this.pageSize);
+  }
+  
+  get totalPages(): number {
+    return Math.ceil(this.issues.length / this.pageSize);
   }
 }

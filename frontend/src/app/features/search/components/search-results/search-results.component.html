@@ -1,26 +1,26 @@
-<div class="search-results fade-in">
-  <h2 class="results-title">Search Results ({{ issues.length }})</h2>
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold mb-6 text-gray-900">Search Results ({{ issues.length }})</h2>
 
-  <div *ngIf="issues.length > 0" class="results-list">
+  <div *ngIf="issues.length > 0" class="flex flex-col gap-4">
     <app-issue-card 
       *ngFor="let issue of displayedIssues" 
       [issue]="issue"
       class="slide-in">
     </app-issue-card>
 
-    <mat-paginator
-      *ngIf="issues.length > pageSize"
-      [length]="issues.length"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="pageSizeOptions"
-      [pageIndex]="pageIndex"
-      (page)="handlePageEvent($event)"
-      aria-label="Select page of issues">
-    </mat-paginator>
+    <!-- Tailwind 分頁按鈕 -->
+    <div *ngIf="issues.length > pageSize" class="flex justify-center items-center gap-2 mt-6">
+      <button (click)="pageIndex = pageIndex - 1; updateDisplayedIssues()" [disabled]="pageIndex === 0" class="px-3 py-1 rounded border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-50">上一頁</button>
+      <span class="text-sm text-gray-600">第 {{ pageIndex + 1 }} / {{ totalPages }} 頁</span>
+      <button (click)="pageIndex = pageIndex + 1; updateDisplayedIssues()" [disabled]="(pageIndex + 1) >= totalPages" class="px-3 py-1 rounded border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-50">下一頁</button>
+      <select [(ngModel)]="pageSize" (change)="pageIndex = 0; updateDisplayedIssues()" class="ml-4 px-2 py-1 border rounded text-sm">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">每頁 {{ size }} 筆</option>
+      </select>
+    </div>
   </div>
 
-  <div *ngIf="issues.length === 0" class="no-results">
-    <mat-icon>search_off</mat-icon>
-    <p>No issues found matching your search criteria.</p>
+  <div *ngIf="issues.length === 0" class="flex flex-col items-center justify-center p-12 bg-white rounded-lg shadow text-center">
+    <span class="material-icons text-5xl text-indigo-300 mb-4">search_off</span>
+    <p class="text-lg text-gray-400">No issues found matching your search criteria.</p>
   </div>
 </div>

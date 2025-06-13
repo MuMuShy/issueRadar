@@ -33,6 +33,7 @@ export class TagRecommendationComponent implements OnInit {
   @Output() searchParamsGenerated = new EventEmitter<{query: string, labels: string[], language: string}>();
   lastQuery: string = '';
   lastLanguage: string = '';
+  selectedTags: string[] = [];
   
   constructor(
     private fb: FormBuilder,
@@ -88,5 +89,18 @@ export class TagRecommendationComponent implements OnInit {
       this.onSubmit();
     }
     // ctrl+enter 或 cmd+enter 則不送出，保留換行
+  }
+
+  isTagSelected(tag: string): boolean {
+    return this.selectedTags.includes(tag);
+  }
+
+  toggleTag(tag: string): void {
+    if (this.isTagSelected(tag)) {
+      this.selectedTags = this.selectedTags.filter(t => t !== tag);
+    } else {
+      this.selectedTags = [...this.selectedTags, tag];
+    }
+    // 你可以在這裡 emit 或同步到搜尋表單
   }
 }

@@ -34,6 +34,8 @@ export class SearchFormComponent implements OnInit {
   languages: string[] = [];
   availableLabels: string[] = [];
   isLoadingOptions = false;
+
+  labelDropdownOpen = false;
   
   constructor(
     private fb: FormBuilder, 
@@ -58,7 +60,7 @@ export class SearchFormComponent implements OnInit {
 
   createForm(): void {
     this.searchForm = this.fb.group({
-      query: ['', [Validators.required, Validators.minLength(2)]],
+      query: ['', []],
       language: [''],
       labels: [[]]
     });
@@ -95,5 +97,22 @@ export class SearchFormComponent implements OnInit {
     this.searchForm.reset();
     this.searchForm.markAsPristine();
     this.searchForm.markAsUntouched();
+  }
+
+  // --- Chip 標籤互動 ---
+  toggleLabelDropdown(): void {
+    this.labelDropdownOpen = !this.labelDropdownOpen;
+  }
+
+  addLabel(label: string): void {
+    const labels = this.searchForm.value.labels as string[];
+    if (!labels.includes(label)) {
+      this.searchForm.patchValue({ labels: [...labels, label] });
+    }
+  }
+
+  removeLabel(label: string): void {
+    const labels = this.searchForm.value.labels as string[];
+    this.searchForm.patchValue({ labels: labels.filter(l => l !== label) });
   }
 }
