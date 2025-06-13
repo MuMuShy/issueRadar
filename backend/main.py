@@ -127,6 +127,7 @@ Issue 內容：{req.body}
     return IssueAnalysisResponse(suggestion=suggestion)
 
 @app.get("/health", response_class=HTMLResponse)
+@app.head("/health")
 def health_check():
     return """
     <html>
