@@ -5,6 +5,7 @@ import os
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from openai import OpenAI
+from fastapi.responses import HTMLResponse
 
 # 載入 .env
 load_dotenv()
@@ -124,3 +125,14 @@ Issue 內容：{req.body}
     except Exception as e:
         suggestion = f"AI 分析失敗：{str(e)}"
     return IssueAnalysisResponse(suggestion=suggestion)
+
+@app.get("/health", response_class=HTMLResponse)
+def health_check():
+    return """
+    <html>
+      <head><title>IssueRadar Health</title></head>
+      <body>
+        <p>Status: OK</p>
+      </body>
+    </html>
+    """
